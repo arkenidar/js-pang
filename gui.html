@@ -7,20 +7,20 @@
     </head>
     <body>
         <pre id="console"></pre>
-        <script>
-            function console_add(text){
-                document.getElementById("console").innerText+=text
-            }
-        </script>
-        <script src="pn.js"></script>
-        <script>
-        function command(){
-            var input=prompt("input")
+        <button id="command_button">command</button>
+        <script  type="module" defer>
+        import {console_add} from "./console.js"
+        import {run} from "./pn.js"
+        window.run=run
+        function command(input){
             var output=run(input)
             console_add(output+"\n")
             console.log(output)
         }
+        document.getElementById("command_button").onclick=function(){
+            var input=prompt("input")
+            command(input)
+        }
         </script>
-        <button onclick="command()">command</button>
     </body>
 </html>
