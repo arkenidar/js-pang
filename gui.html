@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PN pang-lang GUI</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <pre id="console"></pre>
+        <script>
+            function console_add(text){
+                document.getElementById("console").innerText+=text
+            }
+        </script>
+        <script src="pn.js"></script>
+        <script>
+        function command(){
+            var input=prompt("input")
+            var output=run(input)
+            console_add(output+"\n")
+            console.log(output)
+        }
+        </script>
+        <button onclick="command()">command</button>
+    </body>
+</html>

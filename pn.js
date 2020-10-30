@@ -18,7 +18,15 @@ function multiple(x,y){
     return x%y==0
 }
 
-function print(...x){console.log(...x)}
+function print(...x){
+    if(console_add){
+        var text=""
+        var args=[...x]
+        args.map(e=>e.toString())
+        text=args.join(" ")+"\n"
+        console_add(text)
+    }
+    console.log(...x)}
 function add(x,y){return x+y}
 function dont_(){}
 function if_(condition,case_true,case_false){
@@ -91,5 +99,5 @@ function evaluate_word(word_index){
     return eval(word)
 }
 
-evaluate_word(0)
+return evaluate_word(0)
 }
