@@ -16,5 +16,6 @@
   "bugs": {
     "url": "https://github.com/arkenidar/js-pang/issues"
   },
-  "homepage": "https://github.com/arkenidar/js-pang#readme"
+  "homepage": "https://github.com/arkenidar/js-pang#readme",
+  "devDependencies": {}
 }
