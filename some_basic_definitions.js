@@ -1,18 +1,12 @@
-import { Interpreter, EntryArray, console_add } from "./pn.js";
-
-
-export function some_basic_definitions(interpreter: Interpreter): EntryArray {
-
-    let definitions: EntryArray = {};
-
+import { console_add } from "./pn.js";
+export function some_basic_definitions(interpreter) {
+    let definitions = {};
     definitions = { "print": [1, print], "add": [2, add], "+": [2, add], "dont_": [1, dont_], "if_": [3, if_], "while_": [2, while_], };
-
     definitions["multiple"] = [2, multiple];
-    function multiple(x: number, y: number) {
+    function multiple(x, y) {
         return x % y == 0;
     }
-
-    function print(...x: any[]) {
+    function print(...x) {
         if (typeof console_add !== "undefined") {
             var text = "";
             var args = [...x];
@@ -22,39 +16,37 @@ export function some_basic_definitions(interpreter: Interpreter): EntryArray {
         }
         console.log(...x);
     }
-    function add(x: number, y: number) { return x + y; }
+    function add(x, y) { return x + y; }
     function dont_() { }
-    function if_(condition: number, case_true: number, case_false: number) {
+    function if_(condition, case_true, case_false) {
         if (interpreter.evaluate_word(condition))
             return interpreter.evaluate_word(case_true);
-
         else
             return interpreter.evaluate_word(case_false);
     }
-    function while_(condition: number, do_this: number) {
+    function while_(condition, do_this) {
         while (interpreter.evaluate_word(condition))
             interpreter.evaluate_word(do_this);
     }
     definitions["set"] = [2, set];
-    function set(what: string, value: any) {
+    function set(what, value) {
         interpreter.global_scope[what] = value;
     }
     definitions["get"] = [1, get];
-    function get(what: string): any {
+    function get(what) {
         return interpreter.global_scope[what];
     }
     definitions["lesser"] = [2, lesser];
-    function lesser(first: number, second: number) {
+    function lesser(first, second) {
         return first < second;
     }
     definitions["greater"] = [2, greater];
-    function greater(first: number, second: number) {
+    function greater(first, second) {
         return first > second;
     }
     definitions["not"] = [1, not];
-    function not(what: boolean) {
+    function not(what) {
         return !what;
     }
-
     return definitions;
 }

@@ -1,6 +1,6 @@
 // experiment with Polish Notation (PN)
 
-import { some_basic_definitions } from "./some_basic_definitions"
+import { some_basic_definitions } from "./some_basic_definitions.js"
 
 export function console_add(text:string){
     if(typeof document==="undefined") return
