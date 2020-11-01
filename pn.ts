@@ -63,7 +63,7 @@ export class Interpreter{
             }
             return
         }
-        return eval(word)
+        return JSON.parse(word)//eval(word)
     }
 
     phrase_length(word_index:number){
