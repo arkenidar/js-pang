@@ -14,11 +14,15 @@ export class Interpreter {
     }
     add_definitions(definition_provider) {
         let definitions_to_add = definition_provider(interpreter);
-        this.definitions = Object.assign(Object.assign({}, this.definitions), definitions_to_add);
+        this.definitions = { ...this.definitions, ...definitions_to_add };
     }
     run(pn) {
+        let words_array = pn.split(" ");
+        return this.run_array(words_array);
+    }
+    run_array(words_array) {
         const size_before = this.words.length;
-        let new_words = pn.split(" ");
+        let new_words = words_array;
         this.words = [...this.words, ...new_words];
         return this.evaluate_word(size_before);
     }
@@ -72,8 +76,10 @@ interpreter.add_definitions(some_basic_definitions);
 export function run(pn) {
     return interpreter.run(pn);
 }
-demo();
-function demo() {
+demo(interpreter);
+function demo(interpreter) {
+    interpreter.run_array(["print",
+        '"hello word from language experiment codenamed pang"']);
     const pn1 = '( set "counter" 1 while_ not greater get "counter" 5 ( print get "counter" set "counter" + 1 get "counter" ) )';
     const pn2 = '( set "counter" 1 while_ not greater get "counter" 5 ( print if_ multiple get "counter" 2 "multiple_of_2" get "counter" set "counter" + 1 get "counter" ) )';
     const pn3 = '( set "counter" 1 while_ not greater get "counter" 20 ( print if_ multiple get "counter" 15 "FizzBuzz" if_ multiple get "counter" 3 "Fizz" if_ multiple get "counter" 5 "Buzz" get "counter" set "counter" + 1 get "counter" ) )';

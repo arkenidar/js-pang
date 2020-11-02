@@ -31,8 +31,12 @@ export class Interpreter{
     }
 
     run(pn:string){
+        let words_array:string[]=pn.split(" ")
+        return this.run_array(words_array)
+    }
+    run_array(words_array:string[]):any{
         const size_before=this.words.length
-        let new_words:string[]=pn.split(" ")
+        let new_words:string[]=words_array
         this.words=[...this.words,...new_words]
         return this.evaluate_word(size_before)
     }
@@ -88,8 +92,11 @@ export function run(pn:string){
     return interpreter.run(pn)
 }
 
-demo()
-function demo() {
+demo(interpreter)
+function demo(interpreter:Interpreter) {
+
+    interpreter.run_array(["print",
+     '"hello word from language experiment codenamed pang"'])
     const pn1='( set "counter" 1 while_ not greater get "counter" 5 ( print get "counter" set "counter" + 1 get "counter" ) )'
 
     const pn2='( set "counter" 1 while_ not greater get "counter" 5 ( print if_ multiple get "counter" 2 "multiple_of_2" get "counter" set "counter" + 1 get "counter" ) )'
