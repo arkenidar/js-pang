@@ -1,6 +1,7 @@
 // experiment with Polish Notation (PN)
 
 import { some_basic_definitions } from "./some_basic_definitions.js"
+import { tests } from "./tests"
 
 export function console_add(text:string){
     if(typeof document==="undefined") return
@@ -31,7 +32,7 @@ export class Interpreter{
     }
 
     run(pn:string){
-        let words_array:string[]=pn.split(" ")
+        let words_array:string[]=program_to_array(pn)//pn.split(" ")
         return this.run_array(words_array)
     }
     run_array(words_array:string[]):any{
@@ -85,25 +86,39 @@ export class Interpreter{
     }
 }
 
-let interpreter=new Interpreter()
+export let interpreter=new Interpreter()
 interpreter.add_definitions(some_basic_definitions)
 
 export function run(pn:string){
     return interpreter.run(pn)
 }
 
-demo(interpreter)
-function demo(interpreter:Interpreter) {
+//tests()
 
-    interpreter.run_array(["print",
-     '"hello word from language experiment codenamed pang"'])
-    const pn1='( set "counter" 1 while_ not greater get "counter" 5 ( print get "counter" set "counter" + 1 get "counter" ) )'
+export function program_to_array(program:string):string[]{
+    function split_quote(str:string):string[]{
+        var out=[]
+        var word=""
+        var ignore_blanks=true
+        for(var i=0; i<str.length; i++){
+            var current=str[i]
+            var is_quote=current==="\"" && ( i>0 && str[i-1] !== "\\" )
+            var is_blank=[" ", "\t", "\n"].indexOf(current)!==-1
+            
+            if(is_quote)  ignore_blanks=!ignore_blanks
+            if(is_blank && !ignore_blanks || !is_blank) word+=current
+            var terminate_word=(i==str.length-1) || ( is_blank && ignore_blanks &&
+                ( i>0 && [" ", "\t", "\n"].indexOf(str[i-1])===-1 ) )
+            if(terminate_word){ out.push(word); word="" }
+        }
+        return out
+    }
 
-    const pn2='( set "counter" 1 while_ not greater get "counter" 5 ( print if_ multiple get "counter" 2 "multiple_of_2" get "counter" set "counter" + 1 get "counter" ) )'
-    
-    const pn3='( set "counter" 1 while_ not greater get "counter" 20 ( print if_ multiple get "counter" 15 "FizzBuzz" if_ multiple get "counter" 3 "Fizz" if_ multiple get "counter" 5 "Buzz" get "counter" set "counter" + 1 get "counter" ) )'
-    
-    run(pn1)
-    run(pn2)
-    run(pn3)
+    var out:string[]=split_quote(program)
+    for(var i=0; i<out.length; i++){
+        var current=out[i]
+        if(typeof current==="string" && current[0]=='"')
+            out[i]=current.replace(/\n/g,"\\n")
+    }
+    return out
 }
